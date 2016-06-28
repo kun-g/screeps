@@ -1,0 +1,30 @@
+var roleHarvester = {
+
+    /** @param {Creep} creep **/
+    run: function(creep) {
+	    if(creep.carry.energy < creep.carryCapacity) {
+            var source = creep.findNearest(FIND_SOURCES);
+            if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(source);
+            }
+        } else {
+            var target = creep.findNearest(FIND_MY_STRUCTURES, {
+                    filter: (structure) => {
+                        return (structure.structureType == STRUCTURE_EXTENSION ||
+                                structure.structureType == STRUCTURE_SPAWN) &&
+                                structure.energy < structure.energyCapacity;
+                    }
+            });
+            if (target) {
+                if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+                }
+            } else {
+                console.log('Harvester have nothing to do');
+                creep.moveTo(Game.spawns.Spawn1);
+            }
+        }
+	}
+};
+
+module.exports = roleHarvester;
