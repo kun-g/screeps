@@ -1,6 +1,4 @@
-require('extend');
 var Role = require('role');
-
 
 module.exports.loop = function () {
     
